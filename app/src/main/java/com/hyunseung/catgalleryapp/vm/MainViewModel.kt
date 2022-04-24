@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.hyunseung.catgalleryapp.model.Cat
 import com.hyunseung.catgalleryapp.model.CatsProvider
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -16,21 +17,17 @@ class MainViewModel(
     private val catsProvider: CatsProvider
 ) : ViewModel() {
 
-    private val _catList = MutableLiveData<List<Cat>>()
-    val catList : LiveData<List<Cat>> = _catList
-
-    init {
-        getCatList()
-    }
-
+    private val cats = MutableLiveData<List<Cat>>()
+    val _cats: LiveData<List<Cat>> = cats
     // catsProvider를 통해 Cat리스트를 받아온다.
     fun getCatList() {
         Log.d("test", "fetch!!")
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             if (!catsProvider.isTaskRunning()) {
                 val channel = catsProvider.execute(this)
                 channel.consumeEach { itemList ->
-                    _catList.postValue(itemList)
+                    Log.d("test", "cats : ${itemList}")
+                    cats.postValue(itemList)
                 }
             }
         }

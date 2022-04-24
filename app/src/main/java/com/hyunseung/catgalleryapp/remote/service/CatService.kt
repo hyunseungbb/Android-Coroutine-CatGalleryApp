@@ -1,8 +1,6 @@
 package com.hyunseung.catgalleryapp.remote.service
 
-import com.hyunseung.catgalleryapp.model.Cat
 import com.hyunseung.catgalleryapp.remote.response.CatsBO
-import retrofit2.Call
 import retrofit2.http.GET
 
 interface CatService {

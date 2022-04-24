@@ -1,11 +1,12 @@
-package com.zhuinden.mvvmaacrxjavaretrofitroom.features.cats
+package com.hyunseung.catgalleryapp.adapter
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.hyunseung.catgalleryapp.R
 import com.hyunseung.catgalleryapp.databinding.ViewCatItemBinding
 import com.hyunseung.catgalleryapp.model.Cat
 import java.util.*
@@ -13,7 +14,8 @@ import java.util.*
 class CatAdapter() : RecyclerView.Adapter<CatAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = ViewCatItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = DataBindingUtil.inflate<ViewCatItemBinding>(LayoutInflater.from(parent.context),
+        R.layout.view_cat_item, parent, false)
         return ViewHolder(binding)
     }
 
@@ -23,21 +25,19 @@ class CatAdapter() : RecyclerView.Adapter<CatAdapter.ViewHolder>() {
         holder.bind(cats[position])
     }
 
-    private var cats: List<Cat> = Collections.emptyList()
+    val cats = mutableListOf<Cat>()
 
     @SuppressLint("NotifyDataSetChanged")
     fun updateData(cats: List<Cat>?) {
-        this.cats = cats ?: Collections.emptyList()
+        Log.d("test", "update data!!")
+        this.cats.clear()
+        this.cats.addAll(cats!!)
         notifyDataSetChanged()
     }
 
     inner class ViewHolder(val binding: ViewCatItemBinding) : RecyclerView.ViewHolder(binding.root) {
-
         fun bind(cat: Cat) {
-            Glide.with(binding.root)
-                .load(cat.url)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(binding.catImage)
+            binding.cat = cat
         }
     }
 }
