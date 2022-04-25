@@ -32,6 +32,10 @@ git checkout mvvm-databinding
 
 ## Sequence
 
+<img src="README.assets/catGallery.gif" width="40%"/>
+
+
+
 1. 서버에 XML 요청.
 2. XML문서로부터 Image url을 파싱한다.
 3. 파싱한 데이터를 RecyclerVIew에 추가 업데이트한다.
